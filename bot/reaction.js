@@ -21,7 +21,7 @@ const comfirmLoginToBlizzard = (msg, user) => {
 
   const url = 'https://discord-mafia-tw-bot.herokuapp.com/blizzard/oauth' +
     '?user_id=' + user.id +
-    'channel_id=' + msg.channel.id;
+    '&channel_id=' + msg.channel.id;
 
   const embed = new discord.RichEmbed()
     .setColor('#0099ff')
@@ -29,6 +29,12 @@ const comfirmLoginToBlizzard = (msg, user) => {
     .setURL(url);
 
   msg.channel.send(embed)
+
+  setTimeout(() => {
+    getLastSentMessage(msg.channel).then(msg => {
+      msg.delete();
+    })
+  }, 60000);
 }
 
 
