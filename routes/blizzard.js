@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('superagent');
 const config = require('../config');
-const bot = global.gClient;
+const { bot } = require('../bot/bot')
 
 
 const router = express.Router();

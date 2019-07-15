@@ -18,11 +18,9 @@ module.exports = {
 
     client.on('message', message.messageMapping)
 
-    client.login(config.discord_token)
-
-    global.gClient = client;
-
+    client.login(config.discord_token);
 
     isInit = true;
-  }
+  },
+  bot: client
 }
