@@ -49,6 +49,7 @@ router.get('/oauth/callback', (req, res, next) => {
     })
     .catch(err => {
       res.send("<script>window.close();</script>")
+      console.log(err)
     })
 
 });
