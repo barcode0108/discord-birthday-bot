@@ -45,7 +45,7 @@ router.get('/oauth/callback', (req, res, next) => {
     })
     .then(resp => {
       res.send("<script>window.close();</script>")
-      bot.channels.find('name', 'test').send("Responce:\n" + resp.body)
+      bot.channels.find('name', 'test').send("Responce:\n" + JSON.stringify(resp.body))
     })
     .catch(err => {
       res.send("<script>window.close();</script>")
