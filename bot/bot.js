@@ -18,13 +18,7 @@ module.exports = {
 
     client.on('message', message.messageMapping)
 
-    console.log(process.env.DISCORD_TOKEN)
-    console.log("NjAwMTY3NzEyNTg0MzY4MTYw.XSv0Aw.mokiySSwqY4yXvp6jv493amLxdU")
-
-
-    if (process.env.DISCORD_TOKEN === "NjAwMTY3NzEyNTg0MzY4MTYw.XSv0Aw.mokiySSwqY4yXvp6jv493amLxdU")
-      console.log("EQUAL");
-    client.login("NjAwMTY3NzEyNTg0MzY4MTYw.XSv0Aw.mokiySSwqY4yXvp6jv493amLxdU")
+    client.login(config.discord_token)
 
     global.gClient = client;
 
