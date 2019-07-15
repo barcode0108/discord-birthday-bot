@@ -58,7 +58,7 @@ const askLoginToBlizzard = async (client, channel_id) => {
     const reaction = collected.first();
 
     if (reaction.emoji.name === emojiObj.check) {
-      comfirmLoginToBlizzard(message, reaction.user);
+      comfirmLoginToBlizzard(message, reaction.users.find(u => !u.bot));
     } else if (reaction.emoji.name === emojiObj.cross) {
       message.channel.send(emojiObj.cross);
     } else {
