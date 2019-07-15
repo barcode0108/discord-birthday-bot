@@ -17,8 +17,8 @@ const onLoginBlizzard = (msg, args) => {
   msg.channel.send(embed)
 }
 
-const onTest = (msg, args) => {
-  reaction.comfirmLoginToBlizzard(bot, msg.channel.id);
+const onTest = async (msg, args) => {
+  await reaction.comfirmLoginToBlizzard(bot, msg.channel.id);
 }
 
 const commandMap = [

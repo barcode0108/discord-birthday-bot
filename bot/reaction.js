@@ -8,26 +8,23 @@ const emojiObj = {
 }
 
 
-const getLastSentMessage = channel => {
-  let lastMessage;
-  channel.fetchMessages({ limit: 1 }).then(messages => {
-    lastMessage = messages.first();
+const getLastSentMessage = async channel => {
+  const messages = await channel.fetchMessages({ limit: 1 });
+  const lastMessage = messages.first();
 
-    if (!lastMessage.author.bot) { }
-  })
-    .catch(console.error);
-    
+  if (!lastMessage.author.bot) { }
+
   return lastMessage;
 }
 
-const comfirmLoginToBlizzard = (client, channel_id) => {
+const comfirmLoginToBlizzard = async (client, channel_id) => {
   const channel = client.channels.get(channel_id);
 
   let content = "Login To Blizzard?";
 
   channel.send(content);
 
-  const message = getLastSentMessage(channel);
+  const message = await getLastSentMessage(channel);
 
   message.react(emojiObj.check).then(() => message.react(emojiObj.cross));
 
@@ -35,22 +32,22 @@ const comfirmLoginToBlizzard = (client, channel_id) => {
     return [emojiObj.check, emojiObj.cross].includes(reaction.emoji.name) && user.id === message.author.id;
   };
 
-  message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-    .then(collected => {
-      const reaction = collected.first();
+  try {
+    let collected = await message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] });
+    const reaction = collected.first();
 
-      if (reaction.emoji.name === emojiObj.check) {
-        message.channel.send('V');
-      } else {
-        message.channel.send('X');
-      }
-      message.delete();
-    })
-    .catch(collected => {
-      message.channel.send('NULL');
-      message.delete();
-    });
+    if (reaction.emoji.name === emojiObj.check) {
+      message.channel.send('V');
+    } else {
+      message.channel.send('X');
+    }
 
+  } catch (collected) {
+    message.channel.send('NULL');
+
+  } finally {
+    message.delete();
+  }
 }
 
 
