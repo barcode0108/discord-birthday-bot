@@ -9,12 +9,15 @@ const emojiObj = {
 
 
 const getLastSentMessage = channel => {
+  let lastMessage;
   channel.fetchMessages({ limit: 1 }).then(messages => {
-    let lastMessage = messages.first();
+    lastMessage = messages.first();
 
     if (!lastMessage.author.bot) { }
   })
     .catch(console.error);
+    
+  return lastMessage;
 }
 
 const comfirmLoginToBlizzard = (client, channel_id) => {
