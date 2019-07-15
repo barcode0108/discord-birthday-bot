@@ -28,7 +28,7 @@ const comfirmLoginToBlizzard = async (client, channel_id) => {
 
 
   const filter = (reaction, user) => {
-    return [emojiObj.check, emojiObj.cross].includes(reaction.emoji.name) && user.id === message.author.id;
+    return [emojiObj.check, emojiObj.cross].includes(reaction.emoji.name) && user.id !== message.author.id;
   };
 
   try {
