@@ -28,10 +28,8 @@ const comfirmLoginToBlizzard = (msg, user) => {
     .setTitle('Login bz')
     .setURL(url);
 
-  msg.channel.send(embed)
-
-  getLastSentMessage(msg.channel).then(m => {
-    setTimeout(() => m.delete, 60000);
+  msg.channel.send(embed).then(m => {
+    m.delete(60000);
   })
 }
 
@@ -41,10 +39,7 @@ const askLoginToBlizzard = async (client, channel_id) => {
 
   let content = "Login To Blizzard?";
 
-  channel.send(content);
-
-  const message = await getLastSentMessage(channel);
-
+  const message = await channel.send(content);
 
   const filter = (reaction, user) => {
     return [emojiObj.check, emojiObj.cross].includes(reaction.emoji.name) && user.id !== message.author.id;
