@@ -18,7 +18,7 @@ const onLoginBlizzard = (msg, args) => {
 }
 
 const onTest = async (msg, args) => {
-  await reaction.comfirmLoginToBlizzard(bot, msg.channel.id);
+  await reaction.askLoginToBlizzard(bot, msg.channel.id);
 }
 
 const commandMap = [
