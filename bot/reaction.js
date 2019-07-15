@@ -31,26 +31,28 @@ const comfirmLoginToBlizzard = async (client, channel_id) => {
     return [emojiObj.check, emojiObj.cross].includes(reaction.emoji.name) && user.id === message.author.id;
   };
 
-  message.react(emojiObj.check)
-    .then(() => message.react(emojiObj.cross)
-      .then(() => {
-        message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] })
-          .then(collected => {
-            const reaction = collected.first();
+  try {
+    await message.react(emojiObj.check)
+    await message.react(emojiObj.cross)
 
-            if (reaction.emoji.name === emojiObj.check) {
-              message.channel.send('V');
-            } else {
-              message.channel.send('X');
-            }
-            message.delete();
-          })
-          .catch(collected => {
-            message.channel.send('NULL');
-            message.delete();
-          });
+    try {
+      const collected = await message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] });
+      const reaction = collected.first();
 
-      }));
+      if (reaction.emoji.name === emojiObj.check) {
+        message.channel.send('V');
+      } else {
+        message.channel.send('X');
+      }
+    } catch (collected) {
+      message.channel.send('NULL');
+    } finally {
+      message.delete();
+    }
+
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 
