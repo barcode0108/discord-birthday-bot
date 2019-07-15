@@ -1,7 +1,10 @@
 const config = require('../config');
 const discord = require('discord.js');
 
-const onLoginBlizzard = msg => {
+const reaction = require('./reaction')
+
+const onLoginBlizzard = (msg, args) => {
+
   const embed = new discord.RichEmbed()
     .setColor('#0099ff')
     .setTitle('Login bz')
@@ -14,6 +17,10 @@ const commandMap = [
   {
     command: "blizzard",
     callback: onLoginBlizzard,
+  },
+  {
+    command: "test",
+    callback: reaction.comfirmLoginToBlizzard,
   }
 ];
 
