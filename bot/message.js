@@ -3,7 +3,7 @@ const discord = require('discord.js');
 
 const reaction = require('./reaction');
 
-const client = require('./bot')
+const { bot } = require('./bot')
 
 
 
@@ -18,7 +18,7 @@ const onLoginBlizzard = (msg, args) => {
 }
 
 const onTest = (msg, args) => {
-  reaction.comfirmLoginToBlizzard(client, msg.channel.id);
+  reaction.comfirmLoginToBlizzard(bot, msg.channel.id);
 }
 
 const commandMap = [
