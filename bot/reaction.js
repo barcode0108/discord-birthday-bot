@@ -8,7 +8,24 @@ const emojiObj = {
 }
 
 
-const comfirmLoginToBlizzard = (message) => {
+const getLastSentMessage = channel => {
+  channel.fetchMessages({ limit: 1 }).then(messages => {
+    let lastMessage = messages.first();
+
+    if (!lastMessage.author.bot) { }
+  })
+    .catch(console.error);
+}
+
+const comfirmLoginToBlizzard = (client, channel_id) => {
+  const channel = client.channels.get(channel_id);
+
+  let content = "Login To Blizzard?";
+
+  channel.send(content);
+
+  const message = getLastSentMessage(channel);
+
   message.react(emojiObj.check).then(() => message.react(emojiObj.cross));
 
   const filter = (reaction, user) => {
@@ -20,13 +37,15 @@ const comfirmLoginToBlizzard = (message) => {
       const reaction = collected.first();
 
       if (reaction.emoji.name === emojiObj.check) {
-        message.reply('V');
+        message.channel.send('V');
       } else {
-        message.reply('X');
+        message.channel.send('X');
       }
+      message.delete();
     })
     .catch(collected => {
-      message.reply('NULL');
+      message.channel.send('NULL');
+      message.delete();
     });
 
 }
