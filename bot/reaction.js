@@ -34,24 +34,24 @@ const comfirmLoginToBlizzard = async (client, channel_id) => {
   try {
     await message.react(emojiObj.check)
     await message.react(emojiObj.cross)
-
-    try {
-      const collected = await message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] });
-      const reaction = collected.first();
-
-      if (reaction.emoji.name === emojiObj.check) {
-        message.channel.send('V');
-      } else {
-        message.channel.send('X');
-      }
-    } catch (collected) {
-      message.channel.send('NULL');
-    } finally {
-      message.delete();
-    }
-
   } catch (e) {
     console.error(e);
+  }
+
+  
+  try {
+    const collected = await message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] });
+    const reaction = collected.first();
+
+    if (reaction.emoji.name === emojiObj.check) {
+      message.channel.send(emojiObj.check);
+    } else {
+      message.channel.send(reaction.emoji.name);
+    }
+  } catch (collected) {
+    message.channel.send('NULL');
+  } finally {
+    message.delete();
   }
 }
 
