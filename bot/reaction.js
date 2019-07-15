@@ -30,11 +30,9 @@ const comfirmLoginToBlizzard = (msg, user) => {
 
   msg.channel.send(embed)
 
-  setTimeout(() => {
-    getLastSentMessage(msg.channel).then(msg => {
-      msg.delete();
-    })
-  }, 60000);
+  getLastSentMessage(msg.channel).then(m => {
+    setTimeout(() => m.delete, 60000);
+  })
 }
 
 

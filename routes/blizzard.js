@@ -1,9 +1,11 @@
 const express = require('express');
 const request = require('superagent');
+const base64url = require('base64-url');
 const config = require('../config');
 const { bot } = require('../bot/bot');
 
-const base64url = require('base64-url');
+const bz = require('../blizzard_api');
+
 
 const router = express.Router();
 
@@ -50,8 +52,10 @@ router.get('/oauth/callback', (req, res, next) => {
     })
     .then(resp => {
       res.send("<script>window.close();</script>")
-      console.log(resp.body.access_token)
-      bot.channels.get(param.channel_id).send(`<@${param.user_id}>`)
+
+      const info = bz.getUserInfo(resp.body.access_token)
+      bot.channels.get(param.channel_id).send(`<@${param.user_id}> Battle Tag:${info.battletag}`)
+
     })
     .catch(err => {
       res.send("<script>window.close();</script>")
