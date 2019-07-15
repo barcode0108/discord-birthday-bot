@@ -1,16 +1,14 @@
 const express = require('express');
 const request = require('superagent');
 const config = require('../config');
-const { bot } = require('../bot/bot')
+const { bot } = require('../bot/bot');
 
+const base64url = require('base64-url');
 
 const router = express.Router();
 
 
 const bzhost = "https://apac.battle.net";
-
-
-
 
 
 router.get('/oauth', (req, res, next) => {
@@ -19,14 +17,14 @@ router.get('/oauth', (req, res, next) => {
     channel_id: req.query.channel_id
   }
 
-  const bs64 = Buffer.from(JSON.stringify(state)).toString("base64");
+  const bs64 = base64url.encode(JSON.stringify(state), 'utf-8')
 
   const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.split("?").shift();
 
   const url = bzhost + "/oauth/authorize" +
     "?client_id=" + config.blizzard_client_id +
     "&scope=sc2.profile" +
-    "&state=" + bs64 +
+    "&state=" + base64url.escape(bs64) +
     "&response_type=code" +
     "&redirect_uri=" + fullUrl + "/callback";
   res.redirect(url);
@@ -39,7 +37,7 @@ router.get('/oauth/callback', (req, res, next) => {
 
   const fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl.split("?").shift();
 
-  const param = JSON.parse(new Buffer(req.query.state, 'base64').toString('utf-8'));
+  const param = JSON.parse(base64url.decode(base64url.unescape(req.query.state)));
 
   request.post(bzhost + "/oauth/token")
     .auth(config.blizzard_client_id, config.blizzard_client_secret)
@@ -52,6 +50,7 @@ router.get('/oauth/callback', (req, res, next) => {
     })
     .then(resp => {
       res.send("<script>window.close();</script>")
+      console.log(resp.body.access_token)
       bot.channels.get(param.channel_id).send(`<@${param.user_id}>`)
     })
     .catch(err => {
