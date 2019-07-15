@@ -50,6 +50,7 @@ const comfirmLoginToBlizzard = (client, channel_id) => {
 
 }
 
+
 module.exports = {
   comfirmLoginToBlizzard,
 }

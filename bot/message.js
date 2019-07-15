@@ -3,8 +3,9 @@ const discord = require('discord.js');
 
 const reaction = require('./reaction');
 
-
 const client = require('./bot')
+
+
 
 const onLoginBlizzard = (msg, args) => {
 
@@ -44,6 +45,8 @@ const messageMapping = msg => {
     }
   }
 }
+
+client.on('message', messageMapping);
 
 module.exports = {
   messageMapping

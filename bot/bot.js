@@ -16,8 +16,6 @@ module.exports = {
       console.log('Bot is ready!')
     });
 
-    client.on('message', message.messageMapping)
-
     client.login(config.discord_token);
 
     isInit = true;
