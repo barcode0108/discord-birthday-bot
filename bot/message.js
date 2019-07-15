@@ -1,7 +1,10 @@
 const config = require('../config');
 const discord = require('discord.js');
 
-const reaction = require('./reaction')
+const reaction = require('./reaction');
+
+
+const client = require('./bot')
 
 const onLoginBlizzard = (msg, args) => {
 
@@ -13,6 +16,10 @@ const onLoginBlizzard = (msg, args) => {
   msg.channel.send(embed)
 }
 
+const onTest = (msg, args) => {
+  reaction.comfirmLoginToBlizzard(client, msg.channel.id);
+}
+
 const commandMap = [
   {
     command: "blizzard",
@@ -20,7 +27,7 @@ const commandMap = [
   },
   {
     command: "test",
-    callback: reaction.comfirmLoginToBlizzard,
+    callback: onTest,
   }
 ];
 
