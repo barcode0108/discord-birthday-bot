@@ -2,25 +2,19 @@ const request = require('superagent');
 
 const bzhost = "https://apac.battle.net";
 
-const getUserInfo = token => {
-  request.get(bzhost + "/oauth/userinfo")
-    .set("Authorization", `Bearer ${token}`)
-    .then(res => {
-      return res.body;
-    })
-    .catch(err => {
-      console.error(err);
-    });
+const getUserInfo = async token => {
+  const res = await request.get(bzhost + "/oauth/userinfo")
+    .set("Authorization", `Bearer ${token}`);
+
+  return res.body
 }
 
 const bzhost2 = "https://apac.api.blizzard.com"
 
-const getSC2Profile = (account_id, token) => {
-  request.get(bzhost2 + `/sc2/player/${account_id}`)
-    .query({ access_token: token })
-    .then(res => {
+const getSC2Profile = async (account_id, token) => {
+  const res = await request.get(bzhost2 + `/sc2/player/${account_id}`)
+    .query({ access_token: token });
 
-    })
 }
 
 

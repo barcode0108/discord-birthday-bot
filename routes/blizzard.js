@@ -29,7 +29,7 @@ router.get('/oauth', (req, res, next) => {
     "&state=" + base64url.escape(bs64) +
     "&response_type=code" +
     "&redirect_uri=" + fullUrl + "/callback";
-    
+
   res.redirect(url);
   // res.send(JSON.stringify({ "redirect_url": url }));
 });
@@ -54,9 +54,10 @@ router.get('/oauth/callback', (req, res, next) => {
     .then(resp => {
       res.send("<script>window.close();</script>")
 
-      const info = bz.getUserInfo(resp.body.access_token)
-      bot.channels.get(param.channel_id).send(`<@${param.user_id}> Battle Tag:${info.battletag}`)
-
+      bz.getUserInfo(resp.body.access_token)
+        .then(info => {
+          bot.channels.get(param.channel_id).send(`<@${param.user_id}> Battle Tag:${info.battletag}`)
+        });
     })
     .catch(err => {
       res.send("<script>window.close();</script>")
