@@ -17,7 +17,22 @@ const getLastSentMessage = async channel => {
   return lastMessage;
 }
 
-const comfirmLoginToBlizzard = async (client, channel_id) => {
+const comfirmLoginToBlizzard = (msg, user) => {
+
+  const url = 'https://discord-mafia-tw-bot.herokuapp.com/blizzard/oauth' +
+    '?user_id=' + user.id +
+    'channel_id=' + msg.channel.id;
+
+  const embed = new discord.RichEmbed()
+    .setColor('#0099ff')
+    .setTitle('Login bz')
+    .setURL(url);
+
+  msg.channel.send(embed)
+}
+
+
+const askLoginToBlizzard = async (client, channel_id) => {
   const channel = client.channels.get(channel_id);
 
   let content = "Login To Blizzard?";
@@ -38,16 +53,18 @@ const comfirmLoginToBlizzard = async (client, channel_id) => {
     console.error(e);
   }
 
-  
   try {
     const collected = await message.awaitReactions(filter, { max: 1, time: 60000, errors: ['time'] });
     const reaction = collected.first();
 
     if (reaction.emoji.name === emojiObj.check) {
-      message.channel.send(emojiObj.check);
+      comfirmLoginToBlizzard(message, reaction.user);
+    } else if (reaction.emoji.name === emojiObj.cross) {
+      message.channel.send(emojiObj.cross);
     } else {
       message.channel.send(reaction.emoji.name);
     }
+
   } catch (collected) {
     message.channel.send('NULL');
   } finally {
@@ -57,5 +74,5 @@ const comfirmLoginToBlizzard = async (client, channel_id) => {
 
 
 module.exports = {
-  comfirmLoginToBlizzard,
+  askLoginToBlizzard,
 }
