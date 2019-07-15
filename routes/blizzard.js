@@ -29,6 +29,7 @@ router.get('/oauth', (req, res, next) => {
     "&state=" + base64url.escape(bs64) +
     "&response_type=code" +
     "&redirect_uri=" + fullUrl + "/callback";
+    
   res.redirect(url);
   // res.send(JSON.stringify({ "redirect_url": url }));
 });
