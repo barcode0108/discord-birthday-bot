@@ -46,7 +46,7 @@ const messageMapping = msg => {
   }
 }
 
-client.on('message', messageMapping);
+bot.on('message', messageMapping);
 
 module.exports = {
   messageMapping
