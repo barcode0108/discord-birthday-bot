@@ -1,0 +1,20 @@
+{
+  "name": "blizzardapi",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "SET BZ_CLIENT_ID=befb08d5bda84c78bba325bfd2c09b43 && SET BZ_CLIENT_SECRET=Bs7APWou8clyl0qvs3HQtCONAIeEaySl && SET DISCORD_TOKEN=NjAwMTY3NzEyNTg0MzY4MTYw.XSv0Aw.mokiySSwqY4yXvp6jv493amLxdU && node server.js",
+    "start": "node ./server.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "discord.js": "^11.5.1",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "superagent": "^5.1.0",
+    "throng": "^4.0.0"
+  }
+}

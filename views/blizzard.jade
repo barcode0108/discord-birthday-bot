@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1= title
+  script.
+    const goBlizzard = () => {
+      const xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "blizzard/oauth", true);
+      xhttp.send();
+      xhttp.onreadystatechange = function () {
+          if (xhttp.readyState == 4 && xhttp.status == 200) {
+              console.log(xhttp.responseText)
+              window.location.href = JSON.parse(xhttp.responseText).redirect_url;
+          }
+      };
+    }
+
+  button(onclick='goBlizzard()') Go Blizzard
