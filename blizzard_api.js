@@ -9,7 +9,7 @@ const getUserInfo = async token => {
   return res.body
 }
 
-const bzhost2 = "https://apac.api.blizzard.com"
+const bzhost2 = "https://tw.api.blizzard.com"
 
 const getSC2Profile = async (account_id, token) => {
   const res = await request.get(bzhost2 + `/sc2/player/${account_id}`)
