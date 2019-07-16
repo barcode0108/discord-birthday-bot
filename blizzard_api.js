@@ -15,7 +15,13 @@ const getSC2Profile = async (account_id, token) => {
   const res = await request.get(bzhost2 + `/sc2/player/${account_id}`)
     .query({ access_token: token });
 
+  for (const obj of res) {
+    if (obj.regionId == 3 && obj.realmId == 2) {
+      return obj;
+    }
+  }
 }
+
 
 
 module.exports = {

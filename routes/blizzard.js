@@ -4,6 +4,8 @@ const base64url = require('base64-url');
 const config = require('../config');
 const { bot } = require('../bot/bot');
 
+const db = require('../db');
+
 const bz = require('../blizzard_api');
 
 
@@ -11,6 +13,15 @@ const router = express.Router();
 
 
 const bzhost = "https://apac.battle.net";
+
+
+const tokenToProfileAndStore = async (discord_user_id, token) => {
+  const info = await bz.getUserInfo(token);
+  const profile = await bz.getSC2Profile(info.sub, token);
+
+  const res = await db.addUser(discord_user_id, info.sub, info.battletag, profile.regionId, profile.realmId, profile.profileId, profile.name);
+  return res.rows[0];
+}
 
 
 router.get('/oauth', (req, res, next) => {
@@ -54,10 +65,10 @@ router.get('/oauth/callback', (req, res, next) => {
     .then(resp => {
       res.send("<script>window.close();</script>")
 
-      bz.getUserInfo(resp.body.access_token)
-        .then(info => {
-          bot.channels.get(param.channel_id).send(`<@${param.user_id}> Battle Tag:${info.battletag}`)
-        });
+      tokenToProfileAndStore(param.user_id, resp.body.access_token)
+        .then(r => {
+          bot.channels.get(param.channel_id).send(`<@${param.user_id}> \n${JSON.stringify(r)}`)
+        })
     })
     .catch(err => {
       res.send("<script>window.close();</script>")

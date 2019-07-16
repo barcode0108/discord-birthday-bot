@@ -8,15 +8,6 @@ const emojiObj = {
 }
 
 
-const getLastSentMessage = async channel => {
-  const messages = await channel.fetchMessages({ limit: 1 });
-  const lastMessage = messages.first();
-
-  if (!lastMessage.author.bot) { }
-
-  return lastMessage;
-}
-
 const comfirmLoginToBlizzard = (msg, user) => {
 
   const url = 'https://discord-mafia-tw-bot.herokuapp.com/blizzard/oauth' +
